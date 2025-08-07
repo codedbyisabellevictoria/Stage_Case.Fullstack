@@ -1,17 +1,18 @@
-import express from "express";
-import { User } from "../models/User";
+import express from 'express';
+import Usuario from '../models/User';
 
 const router = express.Router();
 
-router.get("/", async (_req, res) => {
-  const users = await User.find();
-  res.json(users);
+router.get('/', async (req, res) => {
+  const usuarios = await Usuario.find();
+  res.json(usuarios);
 });
 
-router.post("/", async (req, res) => {
-  const novoUsuario = new User(req.body);
-  const salvo = await novoUsuario.save();
-  res.status(201).json(salvo);
+router.post('/', async (req, res) => {
+  const { nome, email } = req.body;
+  const novoUsuario = new Usuario({ nome, email });
+  await novoUsuario.save();
+  res.status(201).json(novoUsuario);
 });
 
 export default router;
